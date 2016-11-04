@@ -1,6 +1,7 @@
 package me.rei_m.daggersampleapplication;
 
 import android.app.Application;
+import android.support.annotation.VisibleForTesting;
 
 import me.rei_m.daggersampleapplication.di.ApplicationComponent;
 import me.rei_m.daggersampleapplication.di.ApplicationModule;
@@ -12,6 +13,11 @@ public class SampleApplication extends Application {
 
     public ApplicationComponent getComponent() {
         return component;
+    }
+
+    @VisibleForTesting
+    public void setComponent(ApplicationComponent component) {
+        this.component = component;
     }
 
     @Override

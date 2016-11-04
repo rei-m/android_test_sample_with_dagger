@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import java.util.Date;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -22,5 +24,15 @@ public class ApplicationModule {
     @Singleton
     public Context provideContext() {
         return context;
+    }
+
+    @Provides
+    Date provideDate() {
+        return new Date();
+    }
+
+    @Provides
+    String provideString() {
+        return "hogehoge";
     }
 }
