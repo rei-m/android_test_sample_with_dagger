@@ -1,6 +1,5 @@
 package me.rei_m.daggersampleapplication;
 
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
@@ -10,53 +9,111 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.inject.Inject;
-
-import dagger.Component;
-import dagger.Module;
-import dagger.Provides;
 import me.rei_m.daggersampleapplication.component.ApplicationComponent;
+import me.rei_m.daggersampleapplication.component.ListActivityComponent;
+import me.rei_m.daggersampleapplication.component.ListFragmentComponent;
+import me.rei_m.daggersampleapplication.dao.ListDataDao;
+import me.rei_m.daggersampleapplication.module.ListActivityModule;
+import me.rei_m.daggersampleapplication.module.ListFragmentModule;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class ListActivityTest {
 
-    @Inject
-    Date mockDate;
+    @Mock
+    ApplicationComponent applicationComponent;
 
-    @Component(modules = MockApplicationModule.class)
-    public interface TestApplicationComponent extends ApplicationComponent {
-        void inject(ListActivityTest activityTest);
-    }
+    @Mock
+    ListActivityComponent activityComponent;
 
-    @Module
-    public class MockApplicationModule {
-        @Provides
-        Date provideDate() {
-            Date date = new Date();
-            date.setTime(date.getTime() - (24 * 60 * 60 * 1000));
-            return date;
-        }
-    }
+    @Mock
+    ListFragmentComponent fragmentComponent;
+
+    @Mock
+    ListDataDao mockDao;
 
     @Rule
     public ActivityTestRule<ListActivity> activityRule = new ActivityTestRule<>(ListActivity.class, true, false);
 
     @Before
     public void setUp() throws Exception {
-        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        SampleApplication app = (SampleApplication) instrumentation.getTargetContext().getApplicationContext();
-        TestApplicationComponent component = DaggerFirstActivityTest_TestApplicationComponent.builder()
-                .mockApplicationModule(new MockApplicationModule())
-                .build();
-        app.setComponent(component);
-        ((TestApplicationComponent) app.getComponent()).inject(this);
+
+        MockitoAnnotations.initMocks(this);
+
+        SampleApplication app = (SampleApplication) InstrumentationRegistry
+                .getTargetContext()
+                .getApplicationContext();
+
+        app.setComponent(applicationComponent);
+
+        when(applicationComponent.plus(any(ListActivityModule.class)))
+                .thenReturn(activityComponent);
+
+        when(applicationComponent.plus(any(ListActivityModule.class)))
+                .thenReturn(activityComponent);
+
+        when(activityComponent.plus(any(ListFragmentModule.class)))
+                .thenReturn(fragmentComponent);
+
+        doAnswer(invocation -> {
+            ListFragment fragment = (ListFragment) invocation.getArguments()[0];
+            fragment.dao = mockDao;
+            return fragment;
+        }).when(fragmentComponent).inject(any(ListFragment.class));
     }
 
     @Test
-    public void today() {
+    public void データがある時() {
+
+        List<String> mockData = new ArrayList<>();
+        mockData.add("hoge");
+        mockData.add("fuga");
+        mockData.add("piyo");
+
+        when(mockDao.getData()).thenReturn(mockData);
+
         activityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.recycler_view))
+                .check(matches(hasDescendant(withText("hoge"))));
+        onView(withId(R.id.recycler_view))
+                .check(matches(hasDescendant(withText("fuga"))));
+        onView(withId(R.id.recycler_view))
+                .check(matches(hasDescendant(withText("piyo"))));
+
+        onView(withId(R.id.empty))
+                .check(matches(not(isDisplayed())));
+    }
+
+    @Test
+    public void データが空の時() {
+
+        List<String> mockData = new ArrayList<>();
+
+        when(mockDao.getData()).thenReturn(mockData);
+
+        activityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.empty))
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.recycler_view))
+                .check(matches(not(isDisplayed())));
     }
 }

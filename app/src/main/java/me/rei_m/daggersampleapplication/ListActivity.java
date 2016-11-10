@@ -3,18 +3,11 @@ package me.rei_m.daggersampleapplication;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-import java.util.Date;
-
-import javax.inject.Inject;
-
 import me.rei_m.daggersampleapplication.component.HasComponent;
 import me.rei_m.daggersampleapplication.component.ListActivityComponent;
 import me.rei_m.daggersampleapplication.module.ListActivityModule;
 
 public class ListActivity extends BaseActivity implements HasComponent<ListActivityComponent> {
-
-    @Inject
-    Date currentDate;
 
     private ListActivityComponent component;
 
@@ -24,7 +17,7 @@ public class ListActivity extends BaseActivity implements HasComponent<ListActiv
         setContentView(R.layout.activity_list);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        System.out.println(currentDate);
+//        System.out.println(currentDate);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
