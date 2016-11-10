@@ -1,4 +1,4 @@
-package me.rei_m.daggersampleapplication.di;
+package me.rei_m.daggersampleapplication.module;
 
 import android.app.Application;
 import android.content.Context;

@@ -18,17 +18,17 @@ import javax.inject.Inject;
 import dagger.Component;
 import dagger.Module;
 import dagger.Provides;
-import me.rei_m.daggersampleapplication.di.ApplicationComponent;
+import me.rei_m.daggersampleapplication.component.ApplicationComponent;
 
 @RunWith(AndroidJUnit4.class)
-public class FirstActivityTest {
+public class ListActivityTest {
 
     @Inject
     Date mockDate;
 
     @Component(modules = MockApplicationModule.class)
     public interface TestApplicationComponent extends ApplicationComponent {
-        void inject(FirstActivityTest activityTest);
+        void inject(ListActivityTest activityTest);
     }
 
     @Module
@@ -42,7 +42,7 @@ public class FirstActivityTest {
     }
 
     @Rule
-    public ActivityTestRule<FirstActivity> activityRule = new ActivityTestRule<>(FirstActivity.class, true, false);
+    public ActivityTestRule<ListActivity> activityRule = new ActivityTestRule<>(ListActivity.class, true, false);
 
     @Before
     public void setUp() throws Exception {
