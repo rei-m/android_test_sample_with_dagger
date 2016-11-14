@@ -14,7 +14,9 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
+
     private List<String> itemList;
+
     private OnRecyclerViewInteraction listener;
 
     public RecyclerAdapter(@NonNull Context context,
@@ -27,7 +29,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        // 表示するレイアウトを設定
         return new ViewHolder(inflater.inflate(R.layout.list_item, viewGroup, false));
     }
 

@@ -4,12 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import java.util.Date;
-
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
+import me.rei_m.daggersampleapplication.module.scope.ForApplication;
 
 @Module
 public class ApplicationModule {
@@ -21,18 +18,8 @@ public class ApplicationModule {
     }
 
     @Provides
-    @Singleton
+    @ForApplication
     public Context provideContext() {
         return context;
-    }
-
-    @Provides
-    Date provideDate() {
-        return new Date();
-    }
-
-    @Provides
-    String provideString() {
-        return "hogehoge";
     }
 }
