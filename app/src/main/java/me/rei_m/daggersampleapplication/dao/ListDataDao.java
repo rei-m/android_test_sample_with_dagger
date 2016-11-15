@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import me.rei_m.daggersampleapplication.module.scope.ForApplication;
+
+@ForApplication
 public class ListDataDao {
 
     @Inject

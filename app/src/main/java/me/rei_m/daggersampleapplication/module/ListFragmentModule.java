@@ -1,7 +1,7 @@
 package me.rei_m.daggersampleapplication.module;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
 import dagger.Module;
 import me.rei_m.daggersampleapplication.ListFragment;
@@ -9,9 +9,9 @@ import me.rei_m.daggersampleapplication.ListFragment;
 @Module
 public class ListFragmentModule {
 
-    private final Context context;
+    private final Fragment fragment;
 
     public ListFragmentModule(@NonNull ListFragment fragment) {
-        this.context = fragment.getContext();
+        this.fragment = fragment;
     }
 }

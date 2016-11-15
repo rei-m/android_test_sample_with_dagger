@@ -17,8 +17,6 @@ public class ListActivity extends BaseActivity implements HasComponent<ListActiv
         setContentView(R.layout.activity_list);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-//        System.out.println(currentDate);
-
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -31,10 +29,14 @@ public class ListActivity extends BaseActivity implements HasComponent<ListActiv
     protected void setupActivityComponent() {
         component = ((SampleApplication) getApplication()).getComponent()
                 .plus(new ListActivityModule(this));
+        component.inject(this);
     }
 
     @Override
     public ListActivityComponent getComponent() {
+        if (component == null) {
+            setupActivityComponent();
+        }
         return component;
     }
 }
