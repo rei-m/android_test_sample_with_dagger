@@ -24,7 +24,7 @@ public class ListActivity extends BaseActivity implements HasComponent<ListActiv
                     .commit();
         }
     }
-
+    
     @Override
     protected void setupActivityComponent() {
         component = ((SampleApplication) getApplication()).getComponent()
