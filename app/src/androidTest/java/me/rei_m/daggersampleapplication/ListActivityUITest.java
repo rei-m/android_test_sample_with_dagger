@@ -65,9 +65,6 @@ public class ListActivityUITest {
         when(applicationComponent.plus(any(ListActivityModule.class)))
                 .thenReturn(activityComponent);
 
-        when(applicationComponent.plus(any(ListActivityModule.class)))
-                .thenReturn(activityComponent);
-
         when(activityComponent.plus(any(ListFragmentModule.class)))
                 .thenReturn(fragmentComponent);
 
@@ -79,30 +76,30 @@ public class ListActivityUITest {
     }
 
     @Test
-    public void データがある時() {
+    public void データがある時はリストが表示される() {
 
         List<String> mockData = new ArrayList<>();
-        mockData.add("hoge");
-        mockData.add("fuga");
-        mockData.add("piyo");
+        mockData.add("test1");
+        mockData.add("test2");
+        mockData.add("test3");
 
         when(mockDao.getData()).thenReturn(mockData);
 
         activityRule.launchActivity(new Intent());
 
         onView(withId(R.id.recycler_view))
-                .check(matches(hasDescendant(withText("hoge"))));
+                .check(matches(hasDescendant(withText("test1"))));
         onView(withId(R.id.recycler_view))
-                .check(matches(hasDescendant(withText("fuga"))));
+                .check(matches(hasDescendant(withText("test2"))));
         onView(withId(R.id.recycler_view))
-                .check(matches(hasDescendant(withText("piyo"))));
+                .check(matches(hasDescendant(withText("test3"))));
 
         onView(withId(R.id.empty))
                 .check(matches(not(isDisplayed())));
     }
 
     @Test
-    public void データが空の時() {
+    public void データが空の時はリストが表示されない() {
 
         List<String> mockData = new ArrayList<>();
 

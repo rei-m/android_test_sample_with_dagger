@@ -39,14 +39,13 @@ public class ListFragment extends BaseFragment implements RecyclerAdapter.OnRecy
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_list, container, false);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        
+
         List<String> itemData = dao.getData();
 
         RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
