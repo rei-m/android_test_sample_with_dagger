@@ -34,7 +34,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
-public class ListActivityTest {
+public class ListActivityUITest {
 
     @Mock
     ApplicationComponent applicationComponent;
